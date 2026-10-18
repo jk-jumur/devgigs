@@ -1,14 +1,22 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme {
-  /* DevGigs Unique Brand Colors */
-  --color-brand: #0F172A; /* Midnight Slate */
+  --color-brand: #0F172A;
   --color-brand-hover: #1E293B; 
-  --color-accent: #F59E0B; /* Warm Amber */
+  --color-accent: #F59E0B; 
   --color-accent-hover: #D97706;
 }
 
+/* বডির ব্যাকগ্রাউন্ড এবং কালার হ্যান্ডেল করা */
 body {
-  background-color: #f8fafc; /* slate-50 */
-  color: #0f172a; /* slate-900 */
+  background-color: #f8fafc;
+  color: #0f172a;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.dark body {
+  background-color: #020617; /* Dark Blue */
+  color: #f8fafc;
 }

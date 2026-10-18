@@ -1,3 +1,10 @@
+
+const getPastDate = (daysAgo) => {
+  const date = new Date();
+  date.setDate(date.getDate() - daysAgo);
+  return date.toISOString().split("T")[0]; 
+};
+
 export let gigs = [
   {
     id: "1",
@@ -10,9 +17,8 @@ export let gigs = [
     skills: ["React", "Next.js", "TypeScript"],
     sellerName: "Rahim Ahmed",
     sellerRating: 4.8,
-    // নতুন ডার্ক ইমেজ
     imageUrl: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=800&q=80", 
-    createdAt: "2025-10-01",
+    createdAt: getPastDate(15), 
   },
   {
     id: "2",
@@ -25,9 +31,8 @@ export let gigs = [
     skills: ["Next.js", "Tailwind", "Framer Motion"],
     sellerName: "Sadia Khan",
     sellerRating: 4.9,
-    // নতুন প্রফেশনাল ওয়ার্কস্পেস ইমেজ
     imageUrl: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=800&q=80",
-    createdAt: "2025-10-03",
+    createdAt: getPastDate(12), 
   },
   {
     id: "3",
@@ -40,9 +45,8 @@ export let gigs = [
     skills: ["Node.js", "Express", "MongoDB"],
     sellerName: "Tanvir Hasan",
     sellerRating: 4.7,
-    // সার্ভার/নেটওয়ার্কিং থিম
     imageUrl: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=800&q=80",
-    createdAt: "2025-10-05",
+    createdAt: getPastDate(10), 
   },
   {
     id: "4",
@@ -55,9 +59,8 @@ export let gigs = [
     skills: ["Flutter", "Dart", "Figma"],
     sellerName: "Nusrat Jahan",
     sellerRating: 5.0,
-    // মোবাইল ডিজাইন ইমেজ
     imageUrl: "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?auto=format&fit=crop&w=800&q=80",
-    createdAt: "2025-10-06",
+    createdAt: getPastDate(8), 
   },
   {
     id: "5",
@@ -70,9 +73,8 @@ export let gigs = [
     skills: ["Docker", "GitHub Actions", "AWS"],
     sellerName: "Arif Chowdhury",
     sellerRating: 4.6,
-    // কোডিং ও ডেভঅপস ইমেজ
     imageUrl: "https://images.unsplash.com/photo-1618401471353-b98afee0b2eb?auto=format&fit=crop&w=800&q=80",
-    createdAt: "2025-10-07",
+    createdAt: getPastDate(5), 
   },
   {
     id: "6",
@@ -85,9 +87,8 @@ export let gigs = [
     skills: ["MongoDB", "React", "Node.js"],
     sellerName: "Mehedi Hasan",
     sellerRating: 4.9,
-    // ল্যাপটপ কোডিং ইমেজ
     imageUrl: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=800&q=80",
-    createdAt: "2025-10-08",
+    createdAt: getPastDate(3),
   },
   {
     id: "7",
@@ -100,9 +101,8 @@ export let gigs = [
     skills: ["WordPress", "SEO", "Performance"],
     sellerName: "Fahim Rahman",
     sellerRating: 4.5,
-    // স্পিড/অ্যানালিটিক্স ইমেজ
     imageUrl: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80",
-    createdAt: "2025-10-09",
+    createdAt: getPastDate(2), 
   },
   {
     id: "8",
@@ -115,19 +115,17 @@ export let gigs = [
     skills: ["Python", "BeautifulSoup", "Selenium"],
     sellerName: "Rifat Hossain",
     sellerRating: 4.7,
-    // ডেটা সায়েন্স/কোড ইমেজ
     imageUrl: "https://images.unsplash.com/photo-1526379095098-d400fd0bf935?auto=format&fit=crop&w=800&q=80",
-    createdAt: "2025-10-10",
+    createdAt: getPastDate(1), 
   },
 ];
 
-
-// নতুন গিগ যোগ করার হেল্পার ফাংশন
+//new gig add
 export function addGig(gig) {
   gigs.push(gig);
 }
 
-// গিগ ডিলিট করার হেল্পার ফাংশন
+// gig delete function
 export function removeGig(id) {
   gigs = gigs.filter((g) => g.id !== id);
 }
