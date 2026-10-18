@@ -2,7 +2,8 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { AuthProvider } from "@/context/AuthContext";
 import { Toaster } from "sonner";
-import { ThemeProvider } from "next-themes";
+import { ThemeProvider } from "@/context/ThemeContext";
+import NextTopLoader from "nextjs-toploader";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -13,10 +14,14 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    // এখানে suppressHydrationWarning যোগ করা হয়েছে
     <html lang="en" suppressHydrationWarning>
       <body className={inter.className}>
-        <ThemeProvider attribute="class" defaultTheme="light">
+        <ThemeProvider>
+          <NextTopLoader 
+            color="#F59E0B" 
+            height={3}
+            showSpinner={false}
+          />
           <AuthProvider>
             {children}
             <Toaster position="top-right" richColors />

@@ -6,11 +6,11 @@ import Categories from "@/components/home/Categories";
 import FeaturedGigs from "@/components/home/FeaturedGigs";
 import HowItWorks from "@/components/home/HowItWorks";
 import CTA from "@/components/home/CTA";
-import { gigs } from "@/lib/mock-data";
+import { gigs } from "@/lib/mock-data"; // <--- এই লাইনটা যোগ করলেই কাজ করবে
 
 export default function HomePage() {
   return (
-    <div className="min-h-screen flex flex-col bg-slate-50 dark:bg-slate-950 transition-colors duration-300">
+    <div className="min-h-screen flex flex-col bg-[#F9F9F6] dark:bg-slate-950 transition-colors duration-300">
       <Navbar />
       <main className="flex-1">
         <Hero />

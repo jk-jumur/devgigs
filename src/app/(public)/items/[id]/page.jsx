@@ -3,8 +3,9 @@
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 import { motion } from "framer-motion";
-import { toast } from "sonner"; // টোস্ট ইমপোর্ট করা হলো
+import { toast } from "sonner";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import Card from "@/components/ui/Card";
@@ -20,10 +21,7 @@ const fadeInUp = {
 
 const staggerContainer = {
   hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: { staggerChildren: 0.15 },
-  },
+  visible: { opacity: 1, transition: { staggerChildren: 0.15 } },
 };
 
 export default function GigDetailPage() {
@@ -45,18 +43,17 @@ export default function GigDetailPage() {
       .finally(() => setLoading(false));
   }, [id]);
 
-  // Hire বাটনে ক্লিক করলে এই ফাংশনটি চলবে
   const handleHire = () => {
     toast.success("Contact request sent to seller successfully!");
   };
 
   if (loading) {
     return (
-      <div className="min-h-screen flex flex-col bg-slate-50">
+      <div className="min-h-screen flex flex-col bg-[#F9F9F6] dark:bg-slate-950 transition-colors">
         <Navbar />
         <div className="flex-1 flex flex-col items-center justify-center py-32 gap-4">
           <Loader2 className="animate-spin text-accent" size={48} />
-          <p className="text-slate-500 font-bold tracking-wide animate-pulse">Loading gig details...</p>
+          <p className="text-slate-500 dark:text-slate-400 font-bold tracking-wide animate-pulse">Loading gig details...</p>
         </div>
         <Footer />
       </div>
@@ -65,11 +62,11 @@ export default function GigDetailPage() {
 
   if (error || !gig) {
     return (
-      <div className="min-h-screen flex flex-col bg-slate-50">
+      <div className="min-h-screen flex flex-col bg-[#F9F9F6] dark:bg-slate-950 transition-colors">
         <Navbar />
         <div className="flex-1 flex flex-col items-center justify-center px-4 py-20">
-          <h1 className="text-3xl font-extrabold text-brand mb-4">Gig not found</h1>
-          <p className="text-slate-500 mb-8">The gig you are looking for doesn't exist or has been removed.</p>
+          <h1 className="text-3xl font-extrabold text-brand dark:text-white mb-4">Gig not found</h1>
+          <p className="text-slate-500 dark:text-slate-400 mb-8">The gig you are looking for doesn't exist or has been removed.</p>
           <Button variant="accent" onClick={() => router.push("/items")}>Back to Gigs</Button>
         </div>
         <Footer />
@@ -78,65 +75,68 @@ export default function GigDetailPage() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-slate-50">
+    <div className="min-h-screen flex flex-col bg-[#F9F9F6] dark:bg-slate-950 transition-colors duration-300">
       <Navbar />
 
-      <main className="flex-1 max-w-6xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-8 lg:py-12">
+      {/* মেইন কন্টেইনারে flex-1 এবং pb-24 দেওয়া হলো যাতে ফুটার লেগে না থাকে */}
+      <main className="flex-1 max-w-6xl mx-auto w-full px-4 sm:px-6 lg:px-8 pt-8 pb-24">
+        
         {/* ব্যাক বাটন */}
         <motion.button 
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.4 }}
+          initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.4 }}
           onClick={() => router.push("/items")} 
-          className="group flex items-center gap-2 text-slate-500 hover:text-brand font-semibold mb-8 transition-colors"
+          className="group flex items-center gap-2 text-slate-500 dark:text-slate-400 hover:text-brand dark:hover:text-accent font-semibold mb-8 transition-colors"
         >
           <ArrowLeft size={18} className="group-hover:-translate-x-1 transition-transform" /> Back to Gigs
         </motion.button>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+        {/* গ্রিড লেআউট: ২ কলাম কন্টেন্ট, ১ কলাম সাইডবার */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           
-          {/* বাম দিকের কন্টেন্ট */}
-          <motion.div 
-            variants={staggerContainer}
-            initial="hidden"
-            animate="visible"
-            className="lg:col-span-2 space-y-6"
-          >
+          {/* বাম দিকের কন্টেন্ট (৮ কলাম) */}
+          <motion.div variants={staggerContainer} initial="hidden" animate="visible" className="lg:col-span-8 space-y-6">
             
             {/* হিরো ইমেজ ও টাইটেল */}
-            <motion.div variants={fadeInUp} className="bg-white rounded-3xl border border-slate-200 overflow-hidden shadow-sm">
-              <div className="relative h-64 sm:h-80 lg:h-96 w-full bg-slate-100 overflow-hidden">
-                <img src={gig.imageUrl} alt={gig.title} className="w-full h-full object-cover hover:scale-105 transition-transform duration-700" />
-                <div className="absolute top-4 left-4">
-                  <Badge color="accent" className="shadow-lg">{gig.category}</Badge>
-                </div>
+            <motion.div variants={fadeInUp} className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-sm transition-colors">
+              <div className="relative h-64 sm:h-80 w-full bg-slate-100 dark:bg-slate-800">
+                <Image 
+                  src={gig.imageUrl} 
+                  alt={gig.title} 
+                  fill 
+                  sizes="(max-width: 768px) 100vw, 66vw"
+                  className="object-cover" 
+                  priority
+                />
               </div>
               <div className="p-6 sm:p-8">
-                <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-brand mb-4 leading-tight">
+                <Badge color="accent" className="mb-4">{gig.category}</Badge>
+                <h1 className="text-2xl sm:text-3xl font-extrabold text-brand dark:text-white mb-3 leading-tight">
                   {gig.title}
                 </h1>
-                <p className="text-slate-600 text-lg sm:text-xl leading-relaxed">
+                <p className="text-slate-600 dark:text-slate-400 text-lg">
                   {gig.shortDescription}
                 </p>
               </div>
             </motion.div>
 
             {/* ডেসক্রিপশন */}
-            <motion.div variants={fadeInUp} className="bg-white rounded-3xl border border-slate-200 p-6 sm:p-8 shadow-sm">
-              <h2 className="text-xl font-extrabold text-brand mb-4 flex items-center gap-2">
-                <Zap className="text-accent" size={20} /> About this gig
+            <motion.div variants={fadeInUp} className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-6 sm:p-8 shadow-sm transition-colors">
+              <h2 className="text-lg font-bold text-brand dark:text-white mb-4 border-b border-slate-100 dark:border-slate-800 pb-2">
+                About this gig
               </h2>
-              <p className="text-slate-600 leading-relaxed whitespace-pre-line text-base">
+              <p className="text-slate-600 dark:text-slate-400 leading-relaxed whitespace-pre-line">
                 {gig.fullDescription}
               </p>
             </motion.div>
 
             {/* স্কিলস */}
-            <motion.div variants={fadeInUp} className="bg-white rounded-3xl border border-slate-200 p-6 sm:p-8 shadow-sm">
-              <h2 className="text-xl font-extrabold text-brand mb-4">Required Skills</h2>
+            <motion.div variants={fadeInUp} className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-6 sm:p-8 shadow-sm transition-colors">
+              <h2 className="text-lg font-bold text-brand dark:text-white mb-4 border-b border-slate-100 dark:border-slate-800 pb-2">
+                Required Skills
+              </h2>
               <div className="flex flex-wrap gap-2">
                 {gig.skills.map((s) => (
-                  <span key={s} className="px-4 py-2 bg-slate-50 text-slate-700 font-semibold rounded-xl text-sm border border-slate-200 hover:border-brand hover:bg-brand hover:text-white transition-all duration-300">
+                  <span key={s} className="px-3 py-1.5 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-medium rounded-lg text-sm border border-slate-200 dark:border-slate-700">
                     {s}
                   </span>
                 ))}
@@ -144,64 +144,59 @@ export default function GigDetailPage() {
             </motion.div>
 
             {/* স্পেসিফিকেশন */}
-            <motion.div variants={fadeInUp} className="bg-white rounded-3xl border border-slate-200 p-6 sm:p-8 shadow-sm">
-              <h2 className="text-xl font-extrabold text-brand mb-6">Specifications</h2>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div className="p-5 bg-slate-50 rounded-2xl border border-slate-100">
-                  <p className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Category</p>
-                  <p className="font-bold text-brand text-lg">{gig.category}</p>
+            <motion.div variants={fadeInUp} className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-6 sm:p-8 shadow-sm transition-colors">
+              <h2 className="text-lg font-bold text-brand dark:text-white mb-4 border-b border-slate-100 dark:border-slate-800 pb-2">
+                Specifications
+              </h2>
+              <div className="grid grid-cols-2 gap-y-6 gap-x-4">
+                <div>
+                  <p className="text-xs font-semibold text-slate-400 dark:text-slate-500 uppercase mb-1">Category</p>
+                  <p className="font-semibold text-brand dark:text-white">{gig.category}</p>
                 </div>
-                <div className="p-5 bg-slate-50 rounded-2xl border border-slate-100">
-                  <p className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Delivery Time</p>
-                  <p className="font-bold text-brand text-lg flex items-center gap-2"><Clock size={18} className="text-accent"/> {gig.deliveryDays} Days</p>
+                <div>
+                  <p className="text-xs font-semibold text-slate-400 dark:text-slate-500 uppercase mb-1">Delivery Time</p>
+                  <p className="font-semibold text-brand dark:text-white flex items-center gap-1.5"><Clock size={16} className="text-accent"/> {gig.deliveryDays} Days</p>
                 </div>
-                <div className="p-5 bg-slate-50 rounded-2xl border border-slate-100">
-                  <p className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Posted On</p>
-                  <p className="font-bold text-brand text-lg flex items-center gap-2"><Calendar size={18} className="text-accent"/> {gig.createdAt}</p>
+                <div>
+                  <p className="text-xs font-semibold text-slate-400 dark:text-slate-500 uppercase mb-1">Posted On</p>
+                  <p className="font-semibold text-brand dark:text-white flex items-center gap-1.5"><Calendar size={16} className="text-accent"/> {gig.createdAt}</p>
                 </div>
-                <div className="p-5 bg-slate-50 rounded-2xl border border-slate-100">
-                  <p className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Seller Name</p>
-                  <p className="font-bold text-brand text-lg flex items-center gap-2"><User size={18} className="text-accent"/> {gig.sellerName}</p>
+                <div>
+                  <p className="text-xs font-semibold text-slate-400 dark:text-slate-500 uppercase mb-1">Seller Name</p>
+                  <p className="font-semibold text-brand dark:text-white flex items-center gap-1.5"><User size={16} className="text-accent"/> {gig.sellerName}</p>
                 </div>
               </div>
             </motion.div>
           </motion.div>
 
-          {/* ডান দিকের স্টিকি কার্ড (Hire Section) */}
+          {/* ডান দিকের স্টিকি সাইডবার (৪ কলাম) */}
           <motion.aside 
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            className="w-full lg:sticky lg:top-24 self-start"
+            initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.3 }}
+            className="lg:col-span-4 w-full lg:sticky lg:top-24 self-start"
           >
-            <div className="bg-white rounded-3xl border-2 border-slate-200 p-6 sm:p-8 shadow-2xl shadow-slate-200/60">
-              <p className="text-sm text-slate-500 font-bold uppercase tracking-widest mb-2">Total Budget</p>
-              <p className="text-4xl sm:text-5xl font-extrabold text-brand mb-6">৳{gig.budget}</p>
+            <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-6 shadow-xl dark:shadow-none transition-colors">
+              <h3 className="text-sm font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">Budget</h3>
+              <p className="text-4xl font-extrabold text-brand dark:text-white mb-6">৳{gig.budget}</p>
               
-              <div className="space-y-4 mb-8 pb-8 border-b border-slate-100">
-                <div className="flex items-center gap-3 text-slate-700 font-semibold">
-                  <div className="w-8 h-8 rounded-full bg-slate-50 flex items-center justify-center"><Star size={16} className="text-accent fill-accent" /></div>
-                  <span className="text-brand">{gig.sellerRating}</span> Seller Rating
+              <div className="space-y-3 mb-6 pb-6 border-b border-slate-100 dark:border-slate-800">
+                <div className="flex items-center justify-between text-sm">
+                  <span className="flex items-center gap-2 text-slate-600 dark:text-slate-400"><Star size={16} className="text-accent fill-accent" /> Seller Rating</span>
+                  <span className="font-bold text-brand dark:text-white">{gig.sellerRating}</span>
                 </div>
-                <div className="flex items-center gap-3 text-slate-700 font-semibold">
-                  <div className="w-8 h-8 rounded-full bg-slate-50 flex items-center justify-center"><Clock size={16} className="text-brand" /></div>
-                  {gig.deliveryDays} Days Delivery
+                <div className="flex items-center justify-between text-sm">
+                  <span className="flex items-center gap-2 text-slate-600 dark:text-slate-400"><Clock size={16} className="text-accent" /> Delivery</span>
+                  <span className="font-bold text-brand dark:text-white">{gig.deliveryDays} Days</span>
                 </div>
-                <div className="flex items-center gap-3 text-slate-700 font-semibold">
-                  <div className="w-8 h-8 rounded-full bg-slate-50 flex items-center justify-center"><ShieldCheck size={16} className="text-green-500" /></div>
-                  100% Secure Payment
+                <div className="flex items-center justify-between text-sm">
+                  <span className="flex items-center gap-2 text-slate-600 dark:text-slate-400"><ShieldCheck size={16} className="text-green-500" /> Payment</span>
+                  <span className="font-bold text-brand dark:text-white">Secure</span>
                 </div>
               </div>
 
-              {/* এখানে onClick যোগ করা হয়েছে */}
-              <Button 
-                variant="accent" 
-                onClick={handleHire}
-                className="w-full py-6 text-lg font-extrabold rounded-xl shadow-lg shadow-accent/30 hover:-translate-y-1 transition-transform"
-              >
-                Hire / Contact Seller
+              <Button variant="accent" onClick={handleHire} className="w-full py-4 text-lg font-bold rounded-xl shadow-lg shadow-accent/20 transition-transform hover:-translate-y-0.5">
+                Hire / Contact
               </Button>
-              <p className="mt-4 text-xs text-center text-slate-400 font-semibold">
+              <p className="mt-3 text-xs text-center text-slate-400 dark:text-slate-500 font-medium">
                 You won't be charged yet
               </p>
             </div>
@@ -211,28 +206,28 @@ export default function GigDetailPage() {
 
         {/* Related Gigs */}
         {related.length > 0 && (
-          <motion.section 
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.6 }}
-            className="mt-24"
-          >
-            <h2 className="text-2xl sm:text-3xl font-extrabold text-brand mb-8">Related Gigs</h2>
+          <motion.section initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true, margin: "-100px" }} transition={{ duration: 0.6 }} className="mt-20">
+            <h2 className="text-2xl font-extrabold text-brand dark:text-white mb-6">Related Gigs</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {related.map((g) => (
-                <Card key={g.id} className="group overflow-hidden flex flex-col hover:border-brand transition-all duration-300 hover:shadow-lg">
-                  <div className="relative h-44 overflow-hidden">
-                    <img src={g.imageUrl} alt={g.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                <Card key={g.id} className="group overflow-hidden flex flex-col h-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-brand dark:hover:border-accent transition-all duration-300">
+                  <div className="relative h-40 overflow-hidden bg-slate-200 dark:bg-slate-800">
+                    <Image 
+                      src={g.imageUrl} 
+                      alt={g.title} 
+                      fill 
+                      sizes="(max-width: 768px) 100vw, 33vw"
+                      className="object-cover group-hover:scale-105 transition-transform duration-500" 
+                    />
                     <div className="absolute top-3 right-3">
                       <Badge color="accent">{g.category}</Badge>
                     </div>
                   </div>
-                  <div className="p-6 flex flex-col flex-1">
-                    <h3 className="font-bold text-brand text-lg line-clamp-2 mb-2 group-hover:text-accent transition-colors">{g.title}</h3>
-                    <p className="text-brand font-extrabold text-xl mb-6 mt-auto">৳{g.budget}</p>
+                  <div className="p-5 flex flex-col flex-1">
+                    <h3 className="font-bold text-brand dark:text-white line-clamp-2 mb-2 group-hover:text-accent transition-colors">{g.title}</h3>
+                    <p className="text-brand dark:text-white font-extrabold text-lg mb-4 mt-auto">৳{g.budget}</p>
                     <Link href={`/items/${g.id}`}>
-                      <Button variant="outline" className="w-full font-bold" size="sm">View Details</Button>
+                      <Button variant="outline" className="w-full dark:text-white dark:border-slate-700" size="sm">View Details</Button>
                     </Link>
                   </div>
                 </Card>
