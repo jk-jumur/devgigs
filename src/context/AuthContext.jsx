@@ -1,0 +1,59 @@
+"use client";
+
+import { createContext, useContext, useEffect, useState } from "react";
+import {
+  onAuthStateChanged,
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+  signInWithPopup,
+  GoogleAuthProvider,
+  signOut,
+  updateProfile,
+} from "firebase/auth";
+import { auth } from "@/lib/firebase";
+
+const AuthContext = createContext(undefined);
+
+export function AuthProvider({ children }) {
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setUser(user);
+      setLoading(false);
+    });
+    return () => unsubscribe();
+  }, []);
+
+  const login = (email, password) =>
+    signInWithEmailAndPassword(auth, email, password);
+
+  
+  const register = async (email, password, name) => {
+    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+   
+    await updateProfile(userCredential.user, { displayName: name });
+  };
+
+  const loginWithGoogle = () => {
+    const provider = new GoogleAuthProvider();
+    return signInWithPopup(auth, provider);
+  };
+
+  const logout = () => signOut(auth);
+
+  return (
+    <AuthContext.Provider
+      value={{ user, loading, login, register, loginWithGoogle, logout }}
+    >
+      {children}
+    </AuthContext.Provider>
+  );
+}
+
+export const useAuth = () => {
+  const ctx = useContext(AuthContext);
+  if (!ctx) throw new Error("useAuth must be used inside AuthProvider");
+  return ctx;
+};
