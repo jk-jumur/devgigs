@@ -128,14 +128,19 @@ export default function Hero() {
                 DevGigs is the premium marketplace where developers post tech gigs and clients find the perfect match — fast, reliable, and transparent.
               </motion.p>
 
-              <motion.div variants={fadeInUp} className="mt-8 flex flex-col sm:flex-row gap-3 justify-center lg:justify-start items-center">
+                                  <motion.div variants={fadeInUp} className="mt-8 flex flex-col sm:flex-row gap-3 justify-center lg:justify-start items-center">
                 <Link href="/items" className="w-full sm:w-auto">
                   <Button variant="accent" size="lg" className="w-full sm:w-auto font-bold text-brand shadow-[0_0_30px_rgba(245,158,11,0.3)] hover:shadow-[0_0_40px_rgba(245,158,11,0.5)] transition-all hover:-translate-y-0.5">
                     Browse Gigs <ArrowRight size={18} className="ml-2" />
                   </Button>
                 </Link>
                 <Link href="/items/add" className="w-full sm:w-auto">
-                  <Button variant="outline" size="lg" className="w-full sm:w-auto font-bold border-white/30 text-white hover:bg-white/10 lg:border-slate-200 lg:text-brand lg:hover:bg-slate-50 dark:lg:border-slate-800 dark:lg:text-white">
+                 
+                  <Button 
+                    variant="primary" 
+                    size="lg" 
+                    className="w-full sm:w-auto font-bold bg-brand text-white hover:bg-brand-hover dark:bg-white dark:text-brand dark:hover:bg-slate-200 transition-all hover:-translate-y-0.5"
+                  >
                     Post a Gig
                   </Button>
                 </Link>

@@ -57,12 +57,12 @@ export default function AboutPage() {
                 className="relative h-72 lg:h-96 w-full rounded-3xl overflow-hidden shadow-2xl"
               >
                 <Image 
-                  src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=800&auto=format&fit=crop"
-                  alt="DevGigs Team"
-                  fill
-                  className="object-cover hover:scale-105 transition-transform duration-700"
-                  priority
-                />
+    src="https://images.unsplash.com/photo-1543269865-cbf427effbad?q=80&w=1200&auto=format&fit=crop" 
+    alt="DevGigs Team"
+    fill
+    className="object-cover"
+    priority
+   />
                 <div className="absolute inset-0 bg-gradient-to-t from-brand/80 to-transparent"></div>
               </motion.div>
 
