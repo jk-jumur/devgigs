@@ -1,7 +1,7 @@
 markdown
 # DevGigs — Developer Freelance Marketplace 🚀
 
-A premium, fullstack marketplace built with **Next.js 14 (App Router)** where elite developers can post their tech gigs and clients can find the perfect match. 
+A premium, fullstack marketplace built with **Next.js 16 (App Router)** where elite developers can post their tech gigs and clients can find the perfect match. 
 
 This project focuses on a **polished UI, responsiveness, and industry-standard architecture**, featuring a custom "Midnight & Amber" theme with full dark mode support.
 
@@ -20,7 +20,7 @@ This project focuses on a **polished UI, responsiveness, and industry-standard a
 
 ## 🛠️ Tech Stack
 
-- **Framework:** Next.js 14 (App Router, Server & Client Components)
+- **Framework:** Next.js 16 (App Router, Server & Client Components)
 - **Authentication:** Firebase Auth (Email/Password, Google)
 - **Styling:** Tailwind CSS, Lucide React (Icons)
 - **Animations:** Framer Motion
@@ -32,7 +32,7 @@ This project focuses on a **polished UI, responsiveness, and industry-standard a
 
 1. **Clone the repository:**
    ```bash
-   git clone <your-repo-link>
+   git clone <https://github.com/jk-jumur/devgigs>
    cd devgigs
 Install dependencies:
 
@@ -68,4 +68,4 @@ Route	Access	Description
 /terms	Public	Terms of Service
 /api/gigs	—	GET + POST API routes
 🌐 Live Demo
-[Insert your Vercel Live Link Here]
+[https://devgigs.vercel.app]
