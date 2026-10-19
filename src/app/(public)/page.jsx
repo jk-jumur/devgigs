@@ -3,10 +3,11 @@ import Footer from "@/components/layout/Footer";
 import Hero from "@/components/home/Hero";
 import Features from "@/components/home/Features";
 import Categories from "@/components/home/Categories";
+
 import FeaturedGigs from "@/components/home/FeaturedGigs";
 import HowItWorks from "@/components/home/HowItWorks";
 import CTA from "@/components/home/CTA";
-import { gigs } from "@/lib/mock-data"; 
+import { gigs } from "@/lib/mock-data";
 
 export default function HomePage() {
   return (
