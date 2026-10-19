@@ -19,7 +19,7 @@ export default function Categories() {
         
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-4">
           <div>
-            {/* মেইন হেডলাইনের সাইজ কমিয়ে text-3xl md:text-4xl করা হলো */}
+           
             <h2 className="text-3xl md:text-4xl font-extrabold text-slate-800 dark:text-white tracking-tight mb-3">
               Browse by Category
             </h2>
@@ -47,7 +47,7 @@ export default function Categories() {
                     0{i + 1}
                   </span>
                   <div>
-                    {/* ক্যাটাগরি টাইটেলের সাইজ text-xl md:text-2xl করা হলো */}
+                   
                     <h3 className="text-xl md:text-2xl font-bold text-slate-800 dark:text-white group-hover:text-accent transition-colors">
                       {c.name}
                     </h3>

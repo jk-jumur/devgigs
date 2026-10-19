@@ -1,11 +1,41 @@
+"use client";
+
+import { useState } from "react";
 import Link from "next/link";
 import { Terminal, Globe, MessageCircle, Mail, Users } from "lucide-react";
+import { toast } from "sonner";
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
+  const [email, setEmail] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleSubscribe = (e) => {
+    e.preventDefault();
+    if (!email) return;
+    
+    setIsSubmitting(true);
+
+    // ব্রাউজারের লোকাল স্টোরেজে ইমেইল সেভ করা
+    try {
+      const existingSubs = JSON.parse(localStorage.getItem("devgigs_subscribers") || "[]");
+      if (existingSubs.includes(email)) {
+        toast.info("You are already subscribed!");
+      } else {
+        localStorage.setItem("devgigs_subscribers", JSON.stringify([...existingSubs, email]));
+        toast.success("Subscribed successfully! Welcome to the DevGigs newsletter.");
+        setEmail(""); // ইনপুট ক্লিয়ার করা
+      }
+    } catch (error) {
+      toast.error("Something went wrong. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   return (
-    <footer className="bg-white dark:bg-slate-950 border-t border-slate-200 dark:border-slate-800 mt-auto transition-colors duration-300">
+    // এখানে bg-[#F9F9F6] দেওয়া হলো
+    <footer className="bg-[#F9F9F6] dark:bg-slate-950 border-t border-slate-200 dark:border-slate-800 mt-auto transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Main Footer Content */}
@@ -21,13 +51,13 @@ export default function Footer() {
               The premium marketplace where elite developers post tech gigs and clients find the perfect match.
             </p>
             <div className="flex gap-3 pt-2">
-              <a href="#" aria-label="Website" className="p-2.5 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 text-slate-500 dark:text-slate-400 hover:text-brand dark:hover:text-accent hover:border-brand dark:hover:border-accent transition-all duration-300">
+              <a href="#" aria-label="Website" className="p-2.5 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 text-slate-500 dark:text-slate-400 hover:text-brand dark:hover:text-accent hover:border-brand dark:hover:border-accent transition-all duration-300 shadow-sm">
                 <Globe size={18} />
               </a>
-              <a href="#" aria-label="Community" className="p-2.5 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 text-slate-500 dark:text-slate-400 hover:text-brand dark:hover:text-accent hover:border-brand dark:hover:border-accent transition-all duration-300">
+              <a href="#" aria-label="Community" className="p-2.5 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 text-slate-500 dark:text-slate-400 hover:text-brand dark:hover:text-accent hover:border-brand dark:hover:border-accent transition-all duration-300 shadow-sm">
                 <MessageCircle size={18} />
               </a>
-              <a href="#" aria-label="Team" className="p-2.5 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 text-slate-500 dark:text-slate-400 hover:text-brand dark:hover:text-accent hover:border-brand dark:hover:border-accent transition-all duration-300">
+              <a href="#" aria-label="Team" className="p-2.5 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 text-slate-500 dark:text-slate-400 hover:text-brand dark:hover:text-accent hover:border-brand dark:hover:border-accent transition-all duration-300 shadow-sm">
                 <Users size={18} />
               </a>
             </div>
@@ -60,17 +90,24 @@ export default function Footer() {
             <p className="text-sm text-slate-500 dark:text-slate-400 mb-4">
               Get the latest gigs and updates straight to your inbox.
             </p>
-            <form className="flex flex-col gap-2">
+            <form onSubmit={handleSubscribe} className="flex flex-col gap-2">
               <div className="relative">
                 <Mail className="absolute left-3 top-3 text-slate-400" size={18} />
                 <input 
                   type="email" 
                   placeholder="Enter your email" 
-                  className="w-full pl-10 pr-4 py-2.5 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl text-sm focus:outline-none focus:border-brand dark:focus:border-accent text-brand dark:text-white transition-colors"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                  className="w-full pl-10 pr-4 py-2.5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl text-sm focus:outline-none focus:border-brand dark:focus:border-accent text-brand dark:text-white transition-colors shadow-sm"
                 />
               </div>
-              <button type="button" className="w-full py-2.5 bg-brand dark:bg-accent text-white dark:text-brand font-bold rounded-xl hover:bg-slate-800 dark:hover:bg-amber-400 transition-colors">
-                Subscribe
+              <button 
+                type="submit" 
+                disabled={isSubmitting}
+                className="w-full py-2.5 bg-accent text-brand font-bold rounded-xl hover:bg-amber-500 transition-colors disabled:opacity-50"
+              >
+                {isSubmitting ? "Subscribing..." : "Subscribe"}
               </button>
             </form>
           </div>

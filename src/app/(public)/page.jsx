@@ -6,7 +6,7 @@ import Categories from "@/components/home/Categories";
 import FeaturedGigs from "@/components/home/FeaturedGigs";
 import HowItWorks from "@/components/home/HowItWorks";
 import CTA from "@/components/home/CTA";
-import { gigs } from "@/lib/mock-data"; // <--- এই লাইনটা যোগ করলেই কাজ করবে
+import { gigs } from "@/lib/mock-data"; 
 
 export default function HomePage() {
   return (

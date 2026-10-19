@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useState, useRef, useEffect } from "react";
+import { usePathname } from "next/navigation"; // usePathname ইমপোর্ট করো
 import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
 import Button from "@/components/ui/Button";
@@ -11,6 +12,8 @@ import ThemeToggle from "../ui/ThemeToggle";
 export default function Navbar() {
   const { user, logout } = useAuth();
   const router = useRouter();
+  const pathname = usePathname(); // বর্তমান পাথ বের করার জন্য
+  
   const [mobileOpen, setMobileOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [moreOpen, setMoreOpen] = useState(false);
@@ -45,6 +48,9 @@ export default function Navbar() {
     { href: "/terms", label: "Terms of Service", icon: FileText },
   ];
 
+  // সক্রিয় লিংক চেক করার ফাংশন
+  const isActive = (path) => pathname === path;
+
   return (
     <header className="sticky top-0 z-50 bg-white/80 dark:bg-slate-950/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 transition-colors duration-300">
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
@@ -62,9 +68,17 @@ export default function Navbar() {
               <Link 
                 key={l.href} 
                 href={l.href} 
-                className="text-sm font-semibold text-slate-600 dark:text-slate-300 hover:text-brand dark:hover:text-accent transition-colors"
+                className={`text-sm font-semibold transition-colors relative ${
+                  isActive(l.href) 
+                    ? "text-brand dark:text-accent" // অ্যাক্টিভ অবস্থায় কালার
+                    : "text-slate-600 dark:text-slate-300 hover:text-brand dark:hover:text-accent" // সাধারণ অবস্থায়
+                }`}
               >
                 {l.label}
+                {/* অ্যাক্টিভ হলে নিচে একটি ছোট দাগ দেখাবে */}
+                {isActive(l.href) && (
+                  <span className="absolute -bottom-1.5 left-0 w-full h-0.5 bg-accent rounded-full"></span>
+                )}
               </Link>
             ))}
 
@@ -84,7 +98,9 @@ export default function Navbar() {
                       key={l.href} 
                       href={l.href}
                       onClick={() => setMoreOpen(false)}
-                      className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800"
+                      className={`flex items-center gap-2 px-4 py-2 text-sm font-medium hover:bg-slate-100 dark:hover:bg-slate-800 ${
+                        isActive(l.href) ? "text-accent bg-slate-50 dark:bg-slate-800" : "text-slate-700 dark:text-slate-300"
+                      }`}
                     >
                       <l.icon size={16} /> {l.label}
                     </Link>
@@ -160,27 +176,31 @@ export default function Navbar() {
           </div>
         </div>
 
-        {/* মোবাইল মেনু বাটন */}
-        <button 
-          className="md:hidden p-2 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-900 rounded-lg transition-colors" 
-          onClick={() => setMobileOpen((o) => !o)}
-        >
-          {mobileOpen ? <X size={24} /> : <Menu size={24} />}
-        </button>
+        {/* মোবাইল মেনু ও থিম টগল বাটন */}
+        <div className="md:hidden flex items-center gap-2">
+          <ThemeToggle />
+          <button 
+            className="p-2 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-900 rounded-lg transition-colors" 
+            onClick={() => setMobileOpen((o) => !o)}
+          >
+            {mobileOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
+        </div>
       </nav>
 
       {/* মোবাইল মেনু ড্রপডাউন */}
       {mobileOpen && (
         <div className="md:hidden border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 px-4 py-4 space-y-2 shadow-lg max-h-[calc(100vh-4rem)] overflow-y-auto">
-          <div className="flex justify-end mb-2">
-             <ThemeToggle />
-          </div>
           {navLinks.map((l) => (
             <Link 
               key={l.href} 
               href={l.href} 
               onClick={() => setMobileOpen(false)} 
-              className="block px-4 py-3 text-sm font-bold text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-900 rounded-xl"
+              className={`block px-4 py-3 text-sm font-bold rounded-xl ${
+                isActive(l.href) 
+                  ? "bg-accent/10 text-brand dark:text-accent" // মোবাইলে অ্যাক্টিভ হলে হাইলাইট
+                  : "text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-900"
+              }`}
             >
               {l.label}
             </Link>
@@ -188,14 +208,17 @@ export default function Navbar() {
           
           <div className="h-px bg-slate-200 dark:bg-slate-800 my-2"></div>
           
-          {/* মোবাইলে More লিংকগুলো সরাসরি দেখাবে */}
           <div className="space-y-1">
             {moreLinks.map((l) => (
               <Link 
                 key={l.href} 
                 href={l.href}
                 onClick={() => setMobileOpen(false)}
-                className="flex items-center gap-2 px-4 py-3 text-sm font-bold text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-900 rounded-xl"
+                className={`flex items-center gap-2 px-4 py-3 text-sm font-bold rounded-xl ${
+                  isActive(l.href) 
+                    ? "bg-accent/10 text-brand dark:text-accent" 
+                    : "text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-900"
+                }`}
               >
                 <l.icon size={16} /> {l.label}
               </Link>

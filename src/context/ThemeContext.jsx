@@ -8,7 +8,7 @@ export function ThemeProvider({ children }) {
   const [theme, setTheme] = useState("light");
 
   useEffect(() => {
-    // পেজ লোড হওয়ার সময় লোকাল স্টোরেজ থেকে থিম চেক করা
+    
     const savedTheme = localStorage.getItem("theme") || "light";
     setTheme(savedTheme);
     if (savedTheme === "dark") {

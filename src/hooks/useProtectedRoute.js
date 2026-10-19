@@ -9,7 +9,7 @@ export function useProtectedRoute() {
   const router = useRouter();
 
   useEffect(() => {
-    // যদি Firebase লোড হওয়া শেষ হয়ে যায় এবং ইউজার না থাকে
+    
     if (!loading && !user) {
       router.push("/login");
     }
