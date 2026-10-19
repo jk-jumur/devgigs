@@ -2,7 +2,8 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Terminal, Globe, MessageCircle, Mail, Users } from "lucide-react";
+import { Terminal, Mail } from "lucide-react";
+import { FaGithub, FaFacebook, FaLinkedin } from "react-icons/fa"; // react-icons থেকে ব্র্যান্ড আইকন
 import { toast } from "sonner";
 
 export default function Footer() {
@@ -16,7 +17,6 @@ export default function Footer() {
     
     setIsSubmitting(true);
 
-    // ব্রাউজারের লোকাল স্টোরেজে ইমেইল সেভ করা
     try {
       const existingSubs = JSON.parse(localStorage.getItem("devgigs_subscribers") || "[]");
       if (existingSubs.includes(email)) {
@@ -24,7 +24,7 @@ export default function Footer() {
       } else {
         localStorage.setItem("devgigs_subscribers", JSON.stringify([...existingSubs, email]));
         toast.success("Subscribed successfully! Welcome to the DevGigs newsletter.");
-        setEmail(""); // ইনপুট ক্লিয়ার করা
+        setEmail("");
       }
     } catch (error) {
       toast.error("Something went wrong. Please try again.");
@@ -34,7 +34,6 @@ export default function Footer() {
   };
 
   return (
-    // এখানে bg-[#F9F9F6] দেওয়া হলো
     <footer className="bg-[#F9F9F6] dark:bg-slate-950 border-t border-slate-200 dark:border-slate-800 mt-auto transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
@@ -50,15 +49,35 @@ export default function Footer() {
             <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed max-w-xs">
               The premium marketplace where elite developers post tech gigs and clients find the perfect match.
             </p>
+            
+            {/* social links */}
             <div className="flex gap-3 pt-2">
-              <a href="#" aria-label="Website" className="p-2.5 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 text-slate-500 dark:text-slate-400 hover:text-brand dark:hover:text-accent hover:border-brand dark:hover:border-accent transition-all duration-300 shadow-sm">
-                <Globe size={18} />
+              <a 
+                href="https://facebook.com" 
+                target="_blank" 
+                rel="noreferrer"
+                aria-label="Facebook" 
+                className="p-2.5 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 text-slate-500 dark:text-slate-400 hover:text-[#1877F2] dark:hover:text-[#1877F2] hover:border-[#1877F2] dark:hover:border-[#1877F2] transition-all duration-300 shadow-sm"
+              >
+                <FaFacebook size={18} />
               </a>
-              <a href="#" aria-label="Community" className="p-2.5 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 text-slate-500 dark:text-slate-400 hover:text-brand dark:hover:text-accent hover:border-brand dark:hover:border-accent transition-all duration-300 shadow-sm">
-                <MessageCircle size={18} />
+              <a 
+                href="https://github.com" 
+                target="_blank" 
+                rel="noreferrer"
+                aria-label="GitHub" 
+                className="p-2.5 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 text-slate-500 dark:text-slate-400 hover:text-[#333] dark:hover:text-white hover:border-[#333] dark:hover:border-white transition-all duration-300 shadow-sm"
+              >
+                <FaGithub size={18} />
               </a>
-              <a href="#" aria-label="Team" className="p-2.5 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 text-slate-500 dark:text-slate-400 hover:text-brand dark:hover:text-accent hover:border-brand dark:hover:border-accent transition-all duration-300 shadow-sm">
-                <Users size={18} />
+              <a 
+                href="https://linkedin.com" 
+                target="_blank" 
+                rel="noreferrer"
+                aria-label="LinkedIn" 
+                className="p-2.5 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 text-slate-500 dark:text-slate-400 hover:text-[#0A66C2] dark:hover:text-[#0A66C2] hover:border-[#0A66C2] dark:hover:border-[#0A66C2] transition-all duration-300 shadow-sm"
+              >
+                <FaLinkedin size={18} />
               </a>
             </div>
           </div>
@@ -78,9 +97,9 @@ export default function Footer() {
             <h4 className="font-bold text-brand dark:text-white mb-6 uppercase tracking-wider text-sm">Company</h4>
             <ul className="space-y-4 text-sm font-medium text-slate-500 dark:text-slate-400">
               <li><Link href="/about" className="hover:text-accent dark:hover:text-accent transition-colors">About Us</Link></li>
-              <li><a href="#" className="hover:text-accent dark:hover:text-accent transition-colors">Careers</a></li>
-              <li><a href="#" className="hover:text-accent dark:hover:text-accent transition-colors">Privacy Policy</a></li>
-              <li><a href="#" className="hover:text-accent dark:hover:text-accent transition-colors">Terms of Service</a></li>
+              <li><Link href="/careers" className="hover:text-accent dark:hover:text-accent transition-colors">Careers</Link></li>
+              <li><Link href="/privacy" className="hover:text-accent dark:hover:text-accent transition-colors">Privacy Policy</Link></li>
+              <li><Link href="/terms" className="hover:text-accent dark:hover:text-accent transition-colors">Terms of Service</Link></li>
             </ul>
           </div>
 
