@@ -1,4 +1,4 @@
-markdown
+
 # DevGigs — Developer Freelance Marketplace 🚀
 
 A premium, fullstack marketplace built with **Next.js 16 (App Router)** where elite developers can post their tech gigs and clients can find the perfect match. 
